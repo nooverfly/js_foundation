@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>obj基础</title>
+    <script src="basic_fun.js"></script>
+</head>
+<body>
+<script>
+    (function () {
+        //删除属性
+       /* var obj = {x:0, y:0, z:0};
+        var res = delete obj.x;
+        console.log("res:"+res);
+        res = delete obj.m;
+        console.log("res:"+res);*/
+
+        /*//检测属性
+        //1. in运算符: 自有属性和继承属性都检测
+        var o = {x:1};
+        console.log("res:"+("x" in o));//自有
+        console.log("res:"+("y" in o));//非
+        console.log("res:"+("toString" in o));//继承
+
+        //2. hasOwnProperty(): 检测自有
+        console.log("res:"+o.hasOwnProperty("x"));
+        console.log("res:"+o.hasOwnProperty("y"));
+        console.log("res:"+o.hasOwnProperty("toString"));
+
+        //3.propertyIsEnumerable(): 自有且可枚举为true
+        var p = inherit({y:2});
+        p.x = 1;
+        console.log("res:"+p.propertyIsEnumerable("x"));
+        console.log("res:"+p.propertyIsEnumerable("y"));
+        console.log("res:"+Object.prototype.propertyIsEnumerable("toString"));//不可枚举
+
+        //4. !==undefined判断存在: 无法判断存在但值为undefined的情况
+        console.log("res:"+(o.x !== undefined));
+        console.log("res:"+(o.y !== undefined));
+        console.log("res:"+(o.toString !== undefined));
+
+        var q = {x: undefined};
+        console.log("res:"+(q.x !== undefined));
+        console.log("res:"+(q.y !== undefined));
+        console.log("res:"+("x" in q));
+        console.log("res:"+("y" in q));*/
+
+        //属性getter和setter
+        var o = {
+            x: 1.0,
+            y: 1.0,//普通的数据属性
+            //存取器属性成对定义的函数, 可读写
+            get r() {return Math.sqrt(this.x*this.x+this.y*this.y);},
+            set r(value) {
+                var oldVal = Math.sqrt(this.x*this.x+this.y*this.y),
+                    ratio = value/oldVal;
+                this.x *= ratio;
+                this.y *= ratio;
+            },
+            //只读属性
+            get theta() {return Math.atan2(this.y, this.x);}
+        };
+        console.log("r:"+o.r+",theta:"+o.theta);
+        //存取器属性是可以继承的.
+        var q = inherit(o);
+        console.log("r:"+q.r+",theta:"+q.theta);
+        q.x = 3, q.y = 4;
+        console.log("r:"+q.r+",theta:"+q.theta);
+
+    })()
+</script>
+</body>
+</html>
